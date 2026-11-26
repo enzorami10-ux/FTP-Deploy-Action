@@ -1,20 +1,25 @@
-name: FTP Test
-
+name: Publicar en cPanel
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   deploy:
-    name: 🚀 Deploy website every commit
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v6
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
 
-      - name: 📂 Sync files
-        uses: ./
+      - name: Publicar en cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ftp.samkirkland.com
-          username: test@samkirkland.com
-          password: ${{ secrets.ftp_password }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            LEEME.txt
